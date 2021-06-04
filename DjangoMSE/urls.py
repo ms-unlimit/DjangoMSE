@@ -14,10 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from MetaSearchEngine import views
+from django.urls import path, include
+from MetaSearchEngine.views import results_list
+from algorithmic_trading.views import hi
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.index, name="home"),
+    #path('admin/', admin.site.urls),
+    path('', include('MetaSearchEngine.urls')),
+    path('ms/', hi),
 ]

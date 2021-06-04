@@ -1,11 +1,13 @@
 from django.shortcuts import render
 import math
 import MetaSearchEngine.metaSE as metaSE
-import  MetaSearchEngine.similarity as similarity
-import  MetaSearchEngine.textProcessor as textProcessor
+from MetaSearchEngine import textProcessor
+from django.http import HttpResponse
+from .models import Query
+from .forms import QueryForm
 
-n_news = []
-v_news = []
+"""
+print("im MetaSearchEngine")
 
 headers = {'accept-language': 'en-US,en;q=0.9', 'sec-fetch-dest': 'document', 'sec-fetch-mode': 'navigate',
      'sec-fetch-site': 'same-origin', 'sec-fetch-user': '?1', 'upgrade-insecure-requests': '1',
@@ -14,11 +16,12 @@ headers = {'accept-language': 'en-US,en;q=0.9', 'sec-fetch-dest': 'document', 's
 
 #if __name__=="__main__":
 
-query = 'رودبار آمل'
+query = 'car'
 
 engine1 = metaSE.searchEngine(101, "google", "https://www.google.com/search?q=", ".rc", "", query, headers, '.LC20lb', '.st', 'd')
 engine2 = metaSE.searchEngine(202, "bing", "https://www.bing.com/search?q=", ".b_algo", "", query, headers, 'h2 a', '.b_caption p', 'd')
 engine3 = metaSE.searchEngine(202, "Ask", 'https://www.ask.com/web?q=', ".PartialSearchResults-item", "", query, headers,'.result-link', '.PartialSearchResults-item-abstract', 'd')
+#engine4 = metaSE.searchEngine(101, "egerin", "https://egerin.com/user/searchresult?type=Web&query=", ".result", "", query, headers, '.result-title', '.result-snippet', 'd')
 engine5 = metaSE.searchEngine(101, "yippy", "https://yippy.com/search?query=", ".source-bing-azure-2016", "", query, headers, '.title', '.field-snippet .value', 'd')
 
 engine1.start()
@@ -35,15 +38,13 @@ engine5.join()
 
 searchResults=metaSE.searchEngine.results
 searchEngResults=metaSE.searchEngine.enginesResults
-# print(searchResults)
-print(len(searchResults.keys()))
-# print(searchEngResults)
-
 resultCount = len(searchResults.keys())
+
+#print(len(searchResults.keys()))
+
 for i in searchEngResults:
     counter = resultCount
     for j in searchEngResults[i]:
-        # searchResults[j]["Weight"] += counter
         if searchResults[j]["Weight"] == 0:
             searchResults[j]["Weight"] += counter
         else:
@@ -95,17 +96,20 @@ for r in searchResults:
           searchResults[r]["Title"])
 print("-----------------------------------------------------------------------------")
 
-# linksSim = sort_link(linksSim)
+linksSim = textProcessor.sort_link(linksSim)
 for l in linksSim:
     print(l, "link sim : ", linksSim[l]["sim"])
 
 rc=0
 for r in searchResults:
     rc+=1
-    n_news.append(r)
-    v_news.append( " result "+str(rc)+" - "+r+"  Title: "+searchResults[r]["Title"])
-    #print(r," Weight: ",searchResults[r]["Weight"],"  Sim: ",searchResults[r]["Sim"],"simLink: ",searchResults[r]["simLink"])
+    searchResults[r]["Link"],searchResults[r]["Rank"]=str(r),rc
+"""
+def results_list(request):
+    query="chelsea"
+    ms=metaSE.MSE(query)
+    ms.runMSE()
+    return render(request, 'MSE.html', {'items':ms.searchResults, 'query':query})
 
-
-def index(request):
-    return render(request, 'index.html', {'n_news':n_news, 'v_news':v_news, 'query':query})
+def home(request):
+    return HttpResponse("hi")

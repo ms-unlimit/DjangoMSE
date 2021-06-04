@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'MetaSearchEngine.apps.MetasearchengineConfig',
+    'algorithmic_trading.apps.AlgorithmicTradingConfig',
 ]
 
 MIDDLEWARE = [

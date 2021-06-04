@@ -10,32 +10,28 @@
 </head>
 <body>
     <div class="jumbotron">
-        <center><h1>Meta Search Engine</h1>
+        <h1>Meta Search Engine</h1>
             <br/>
            <a href="/" class="btn btn-danger">research</a>
             <h5> Query : {{query}} </h5>
-        </form>
-<!--                <h1>Result List</h1>-->
-    </center>
+
+          <form action="" method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit" />
+         </form>
+
     </div>
 
     <div class="container">
         <div class="row">
-<!--            <div class="col-6">-->
-<!--                    <h3 class="text-centre text-danger">Links</h3>-->
-<!--                    <br/>-->
-<!--                    {% for n in n_news %}-->
-<!--                    <h5> {{n}} </h5>-->
-<!--                    <hr>-->
-<!--                    {% endfor %}-->
-<!--                    <br>-->
-<!--            </div>-->
             <div class="col">
                     <h3 class="text-centre text-danger">Results</h3>
                     <br/>
-                    {% for htn in v_news %}
-                    <h5> {{htn}} </h5>
-                    <hr>
+                    {% for i in items.values %}
+                        <li>
+                        <h5>  <a href= {{i.Link}}}> {{i.Title}}</a> </h5>
+                        <h5> {{i.Description}} </h5>
+                        </li>
                     {% endfor %}
                     <br>
             </div>
