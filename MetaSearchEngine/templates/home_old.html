@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+</head>
+<body>
+<h5> meta search engine {{query}}</h5>
+
+<div>
+    <form action="{% url 'MetaSearchEngine:search' %}" class="form-inline" method="get">
+        {% csrf_token %}
+        <div class="form-group mb-2">
+
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <label class="sr-only">Search</label>
+            <label>
+                <input name="query" class="form-control">
+            </label>
+        </div>
+        <button type="submit" class="btn btn-success btn-lg">Search</button>
+    </form>
+</div>
+
+</body>
+</html>

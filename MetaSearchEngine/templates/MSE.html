@@ -1,48 +1,96 @@
 <!DOCTYPE html>
 <html dir="rtl">
 <head>
+    <title>موتور جستجو روار</title>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1,
-    shrink-to-fit=no">
-    <title>[Meta Search Engine]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,shrink-to-fit=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+
+    <link href="/static/MetaSearchEngine/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/static/MetaSearchEngine/css/style-rtl.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
+
 <body>
-    <div class="jumbotron">
-        <h1>Meta Search Engine</h1>
-            <br/>
-           <a href="/" class="btn btn-danger">research</a>
-            <h5> Query : {{query}} </h5>
 
-          <form action="" method="post">{% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Submit" />
-         </form>
+<div class="jumbotron">
 
-    </div>
+    <header>
+          <div class="container col-sm-12 col-md-12">
+              <div class="logo" align="center"><a class="brand" href= "{% url 'MetaSearchEngine:home' %}" > <span class="logo_title">
+                  <i> روار</i>
+                  <i class="fa fa-skyatlas"></i>
+                  <i >RuaR</i>
 
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                    <h3 class="text-centre text-danger">Results</h3>
+               </span></a></div>
+          </div>
+
+        <div class="container ">
+            <form action="{% url 'MetaSearchEngine:search' %}" method="get">
+                <input name="query" placeholder="عبارت جدید" class="form-control col-sm-12 col-md-12" type="text">
+
+               <div class="logo" align="right">
+                <button type="submit" class=" btn btn-primary " >جستجو
+                    <a><i class="fa fa-search" style="color:#666;"></i></a>
+                </button>
+               </div>
+
+            </form>
+        </div>
+     </header>
+
+
+        <div class="container" >
+
+                         <div class="col-sm-12 col-md-12 ">
+                              <div class="signin">
+                                  <style>
+                                .box {
+                                      direction:rtl;
+                                      background: #1abc9c;
+                                      color: #000;
+                                      font-family:"b yekan",tahoma;
+                                      padding: 15px;
+                                      margin: 10px;
+                                      border-top: 4px solid #16a085;
+                                      border-radius: 3px;
+                                           }
+                                </style>
+                         <p class="logo_title box" align="right" >
+                                       {{number}}
+                                       نتیجه برای:
+                                       {{query}}</p>
+
+
+    <div class="row" >
+            <div class="col" align="right">
                     <br/>
                     {% for i in items.values %}
                         <li>
-                        <h5>  <a href= {{i.Link}}}> {{i.Title}}</a> </h5>
-                        <h5> {{i.Description}} </h5>
+                        <div class="signin" >
+                        <p style="text-align:right"><a href= {{i.Link}}}> {{i.Title}}</a> </p>
+                        <p style="text-align:right"><a href= {{i.Link}}}> {{i.Link}}</a> </p>
+                        <p style="text-align:right">{{i.Description}} </p>
+
+                        </div>
                         </li>
                     {% endfor %}
                     <br>
             </div>
         </div>
 
+                                  </div>
+                         </div>
 
+        </div>
     </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
 
 </body>
 </html>

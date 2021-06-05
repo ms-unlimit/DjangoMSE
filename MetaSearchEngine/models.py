@@ -1,7 +1,7 @@
 from django.db import models
 
 class Query(models.Model):
-    query= models.CharField(max_length=200)
+    query= models.CharField(max_length=300)
     date= models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

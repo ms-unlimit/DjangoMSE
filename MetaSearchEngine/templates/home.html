@@ -1,0 +1,102 @@
+<!doctype html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8">
+<title>موتور جستجو روار</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="apple-touch-fullscreen" content="yes" />
+
+<link href="/static/MetaSearchEngine/css/style.css" rel="stylesheet" type="text/css">
+<link href="/static/MetaSearchEngine/css/style-rtl.css" rel="stylesheet" type="text/css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="sticky_header">
+<div class="overflow_wrapper">
+     <header>
+          <div class="container col-sm-12 col-md-12">
+              <div class="logo" align="center"><a class="brand" > <span class="logo_title">
+                  RuaR
+                    <i class="fa fa-skyatlas"></i>
+                   روار
+               </span></a></div>
+
+          </div>
+     </header>
+
+    <ul>
+                  <p class="sign_title col-sm-12 col-md-12" align="center" style="color:#2d6ca2;">RuaR is a metasearch engine</p>
+    </ul>
+
+     <div class="main">
+          <section>
+
+               <div class="container">
+                    <div class="row">
+                         <div class="col-sm-12 col-md-12">
+                              <div class="signin">
+                                   <p class="sign_title">روار با ترکیب چندین موتور جستجو بهترین نتایج رو برات پیدا میکنه</p>
+
+                                  <div class="row" >
+                                        <div class="form col-lg-8" >
+                                             <form action="{% url 'MetaSearchEngine:search' %}" method="get">
+
+                                                  <input name="query" placeholder="عبارت جستجو" class="form-control" type="text">
+                                                  
+                                                  <button type="submit" class="btn btn-primary ">جستجو
+                                                      <a><i class="fa fa-search" style="color:#666;"></i></a>
+                                                  </button>
+                                             </form>
+                                        </div>
+
+                                   </div>
+                              </div>
+                         </div>
+                         
+                    </div>
+               </div>
+
+              <p class="sign_title col-sm-12 col-md-12" align="center" >نسخه آزمایشی</p>
+          </section>
+		  
+<!-- footer -->
+          <footer>
+               <section class="footer_teasers_wrapper dark_section">
+                    <div class="container triangles-of-section">
+                         <div class="triangle-up-left"></div>
+                         <div class="square-left"></div>
+                         <div class="triangle-up-right"></div>
+                         <div class="square-right"></div>
+                    </div>
+                    <div class="container">
+                         <div class="row">
+                              <div class="footer_teaser pl_about_us_widget col-sm-4 col-md-4">
+
+
+                                   <div class="footer_social">
+                                        <div class="social_wrapper">
+
+                                            <a href="https://t.me/ms_unlimit"><i class="fa fa-telegram"></i></a>
+                                            <a href="https://www.instagram.com/ms_unlimit/"><i class="fa fa-instagram"></i></a>
+                                            <a href="https://mail.google.com/mail/u/0/#search/ms.unlimit%40gmail.com"><i class="fa fa-envelope" ></i></a>
+                                            <a href="https://github.com/ms-unlimit"><i class="fa fa-git"></i></a>
+                                            <a href="https://www.linkedin.com/in/ms-unlimit"><i class="fa fa-linkedin"></i></a>
+
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </section>
+
+          </footer>
+		  
+
+     </div>
+
+</div>
+</body>
+</html>

@@ -6,6 +6,7 @@ import html2text
 import MetaSearchEngine.similarity as similarity
 import MetaSearchEngine.textProcessor as textProcessor
 h2t =html2text.HTML2Text()
+from time import sleep
 
 class searchEngine (threading.Thread):
 
@@ -63,11 +64,19 @@ class searchEngine (threading.Thread):
 
 class MSE():
 
-    searchResults = {}
+    running=False
 
     def __init__(self, query):
         self.query=query
         print(self.query)
+
+    def __del__(self):
+        searchEngine.results.clear()
+        searchEngine.enginesResults.clear()
+        searchEngine.linksSim.clear()
+        searchEngine.resultsCount = 0
+        MSE.running=False
+        print("del obj MSE")
 
     def runMSE(self):
         print("start runMSE")
@@ -76,6 +85,9 @@ class MSE():
                    'user-agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36',
                    'x-client-data': 'CKu1yQEIjrbJAQijtskBCMS2yQEIqZ3KAQjQr8oBCLywygEIl7XKAQjttcoBCI66ygEYvbrKAQ=='}
 
+        # while(MSE.running):
+        #     sleep(1)
+        # MSE.running=True
 
         engine1 = searchEngine(101, "google", "https://www.google.com/search?q=", ".rc", "", self.query, headers, '.LC20lb', '.st', 'd')
         engine2 = searchEngine(202, "bing", "https://www.bing.com/search?q=", ".b_algo", "", self.query, headers, 'h2 a', '.b_caption p', 'd')
@@ -96,36 +108,43 @@ class MSE():
         engine5.join()
 
         print(" start MSE.searchResults")
-        MSE.searchResults=searchEngine.results
+        searchResults=searchEngine.results
         searchEngResults=searchEngine.enginesResults
-        resultCount = len(MSE.searchResults.keys())
+        resultCount = len(searchResults.keys())
+
+
+        # engine1.__del__()
+        # engine2.__del__()
+        # engine3.__del__()
+        # #engine4.__del__()
+        # engine5.__del__()
 
         #print(len(searchResults.keys()))
 
         for i in searchEngResults:
             counter = resultCount
             for j in searchEngResults[i]:
-                if MSE.searchResults[j]["Weight"] == 0:
-                    MSE.searchResults[j]["Weight"] += counter
+                if searchResults[j]["Weight"] == 0:
+                    searchResults[j]["Weight"] += counter
                 else:
-                    MSE.searchResults[j]["Weight"] += counter / (resultCount - counter + 1)
+                    searchResults[j]["Weight"] += counter / (resultCount - counter + 1)
                 counter -= 1
-            diffList = list(set(MSE.searchResults.keys()) - set(searchEngResults[i]))
+            diffList = list(set(searchResults.keys()) - set(searchEngResults[i]))
             totalSim = 0
             remainWeight = counter * (counter + 1) / 2
             for j in diffList:
-                totalSim += MSE.searchResults[j]["Sim"]
+                totalSim += searchResults[j]["Sim"]
             if totalSim != 0:
                 for j in diffList:
-                    sim_Weight = MSE.searchResults[j]["Sim"] * remainWeight / totalSim
+                    sim_Weight = searchResults[j]["Sim"] * remainWeight / totalSim
                     if sim_Weight > 0:
-                        MSE.searchResults[j]["Weight"] += math.log(sim_Weight)
+                        searchResults[j]["Weight"] += math.log(sim_Weight)
                     #      searchResults[j]["Weight"] += searchResults[j]["Sim"] * remainWeight / totalSim
             else:
                 for j in diffList:
-                    MSE.searchResults[j]["Weight"] += remainWeight / len(diffList)
+                    searchResults[j]["Weight"] += remainWeight / len(diffList)
             # print(searchResults)
-        MSE.searchResults = textProcessor.sort_dict(MSE.searchResults)
+        searchResults = textProcessor.sort_dict(searchResults)
 
         # for r in searchResults:
         #     print(r, " Weight: ", searchResults[r]["Weight"], "  Sim: ", searchResults[r]["Sim"], "simLink: ",
@@ -140,27 +159,29 @@ class MSE():
             max = linksSim[ls]["sim"]
             break
 
-        for w in MSE.searchResults:
-            log_w = math.log(MSE.searchResults[w]["Weight"])
+        for w in searchResults:
+            log_w = math.log(searchResults[w]["Weight"])
             if linksSim[w]["sim"] != 0:
                 norm = linksSim[w]["sim"] / max
                 f = log_w * norm
-                MSE.searchResults[w]["Weight"] += f
+                searchResults[w]["Weight"] += f
                 print("link ", w)
                 print("final ", f)
 
-        MSE.searchResults = textProcessor.sort_dict(MSE.searchResults)
+        searchResults = textProcessor.sort_dict(searchResults)
         # for r in searchResults:
         #     print(r, " Weight: ", searchResults[r]["Weight"], "  Sim: ", searchResults[r]["Sim"], "simLink: ",
         #           searchResults[r]["simLink"], "steam_title : ", searchResults[r]["steam_title"], "Title:",
         #           searchResults[r]["Title"])
         # print("-----------------------------------------------------------------------------")
 
-        linksSim = textProcessor.sort_link(linksSim)
+        #linksSim = textProcessor.sort_link(linksSim)
         # for l in linksSim:
         #     print(l, "link sim : ", linksSim[l]["sim"])
 
         rc=0
-        for r in MSE.searchResults:
+        for r in searchResults:
             rc+=1
-            MSE.searchResults[r]["Link"],MSE.searchResults[r]["Rank"]=str(r),rc
+            searchResults[r]["Link"],searchResults[r]["Rank"]=str(r),rc
+
+        return searchResults
